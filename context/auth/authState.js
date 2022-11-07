@@ -12,12 +12,13 @@ import {
 
 } from '../../types';
 import clientesAxios from '../../config/axios';
+import tokenAuth from '../../config/tokenAuth';
 
 const AuthState = ({children}) => {
 
     //definir nuestro state inicial
     const initialState = {
-        token: '',
+        token: typeof window !== 'undefined' ? localStorage.getItem('token') : '',
         autenticado: false,
         usuario: null,
         mensaje: null
@@ -52,6 +53,65 @@ const AuthState = ({children}) => {
         }, 3000);
     }
 
+    
+    //Autenticar Usuarios
+    const iniciarSesion = async datos => {
+        console.log(datos);
+        try {
+            const res = await clientesAxios.post('/api/auth', datos);
+            console.log(res.data.token);
+            dispatch({
+                type: LOGINEXITOSO,
+                payload: res.data.token
+            })
+        } catch (error) {
+            console.log(error.response.data.msg);
+            dispatch({
+                type: LOGINERROR,
+                payload: error.response.data.msg
+            })
+        }
+        // //lIMPIA LA ALERTA 
+        // setTimeout(() => {
+        //     dispatch({
+        //         type: LIMPIAR_ALERTA
+        //     })
+        // }, 3000);
+    }
+
+    //Retorne el usuario autenticado en base al JWT
+    const usuarioAutenticado = async () => {
+        const token = localStorage.getItem('token');
+
+        if(token){
+            tokenAuth(token);
+            
+            try {
+                const res = await clientesAxios.get('/api/auth');
+                // console.log(res.data.usuario);
+                if(res.data.usuario){
+                    dispatch({
+                        type: USUARIO_AUTENTICADO,
+                        payload: res.data.usuario
+                    })
+                }
+            } catch (error) {
+                dispatch({
+                    type: LOGINERROR,
+                    payload: error.response.data.msg
+                })
+            }
+        }
+    }
+
+    //Cerrar sesion 
+    const cerrarSesion = () => {
+        dispatch({
+            type: CERRAR_SESION
+        })
+    }
+
+
     return (
         <authContext.Provider
             value={{
@@ -59,7 +119,10 @@ const AuthState = ({children}) => {
                 autenticado: state.autenticado,
                 usuario: state.usuario,
                 mensaje: state.mensaje,
-                registrarUsarios
+                registrarUsarios, 
+                iniciarSesion,
+                usuarioAutenticado,
+                cerrarSesion
             }}
         >
             {children}
