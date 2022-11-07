@@ -96,6 +96,13 @@ const AppState = ({children}) => {
         }
     }
 
+    //limpiar el state
+    const limpiarState = () => {
+        dispatch({
+            type: LIMPIAR_STATE
+        })
+    }
+
 
 
     return(
@@ -111,7 +118,8 @@ const AppState = ({children}) => {
                 url: state.url,
                 mostrarAlerta,
                 subirArchivo,
-                crearEnlace
+                crearEnlace,
+                limpiarState
             }}
         >
             {children}

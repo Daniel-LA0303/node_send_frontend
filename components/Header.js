@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import mypic from '../public/logo.svg'
 import authContext from '../context/auth/authContext';
+import appContext from '../context/app/appContext';
 import { useRouter } from 'next/router';
 
 
@@ -16,15 +17,29 @@ const Header = () => {
     const AuthContext = useContext(authContext);
     const {usuarioAutenticado, usuario, cerrarSesion} = AuthContext;
 
+    //extraer el usuario autenticado del storage
+    const AppContext = useContext(appContext);
+    const {limpiarState} = AppContext;
+
     useEffect(() => {
         usuarioAutenticado()
     }, []);
 
+    const redireccionar = () => {
+        router.push('/');
+        limpiarState();
+    }
+
   return (
     <header className='py-8 flex flex-col md:flex-row items-center justify-between'>
-    <Image 
-        // onClick={() => redireccionar()} 
-        className='w-64 mb-8 md:mb-0' src={mypic}/>
+
+    <Image
+        onClick={() => redireccionar()} 
+        className='w-64 mb-8 md:mb-0' src={mypic}
+        alt='xd'
+    />
+
+
 
     <div>
         {usuario ? (

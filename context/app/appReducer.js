@@ -48,6 +48,19 @@ export default (state, action) => {
                 ...state,
                 url: action.payload
             }
+        case LIMPIAR_STATE: 
+            return{
+                ...state,
+                mensaje_archivo: null,
+                nombre: '',
+                nombre_original: '',
+                cargando: null,
+                descargas: 1,
+                password: '',
+                autor: null,
+                url: ''
+
+            }
         default: return state
     }
 }
