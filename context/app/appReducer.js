@@ -61,6 +61,16 @@ export default (state, action) => {
                 url: ''
 
             }
+        case AGREGAR_PASSWORD: 
+            return{
+                ...state,
+                password: action.payload
+            }
+        case AGREGAR_DESCARGAS: 
+            return{
+                ...state,
+                descargas: action.payload
+            }
         default: return state
     }
 }

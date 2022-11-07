@@ -46,11 +46,11 @@ const AuthState = ({children}) => {
             })
         }
         //lIMPIA LA ALERTA 
-        setTimeout(() => {
-            dispatch({
-                type: LIMPIAR_ALERTA
-            })
-        }, 3000);
+        // setTimeout(() => {
+        //     dispatch({
+        //         type: LIMPIAR_ALERTA
+        //     })
+        // }, 3000);
     }
 
     
@@ -71,10 +71,10 @@ const AuthState = ({children}) => {
                 payload: error.response.data.msg
             })
         }
-        // //lIMPIA LA ALERTA 
+        //lIMPIA LA ALERTA 
         // setTimeout(() => {
         //     dispatch({
-        //         type: LIMPIAR_ALERTA
+        //         type: OCUL
         //     })
         // }, 3000);
     }

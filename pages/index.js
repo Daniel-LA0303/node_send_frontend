@@ -19,10 +19,10 @@ export default function Home() {
 
   useEffect(() => {
 
-    // const token = localStorage.getItem('token');
-    // if(token){
+    const token = localStorage.getItem('token');
+    if(token){
       usuarioAutenticado()
-    // }
+    }
   }, [])
 
   return (
