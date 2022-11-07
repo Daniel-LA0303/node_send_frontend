@@ -1,7 +1,11 @@
 import React, {useContext, useEffect} from 'react'
 import Layout from "../components/Layout";
 import authContext from '../context/auth/authContext';
+import appContext from '../context/app/appContext';
+import Link from 'next/link';
 
+import DropZone from '../components/DropZone';
+import Alerta from '../components/Alerta';
 
 export default function Home() {
 
@@ -9,15 +13,54 @@ export default function Home() {
   const AuthContext = useContext(authContext);
   const {usuarioAutenticado} = AuthContext;
 
+  //extraer el mensaje de rror
+  const AppContext = useContext(appContext);
+  const { mensaje_archivo, url } = AppContext;
+
   useEffect(() => {
 
-    const token = localStorage.getItem('token');
-    if(token){
+    // const token = localStorage.getItem('token');
+    // if(token){
       usuarioAutenticado()
-    }
+    // }
   }, [])
 
   return (
-    <Layout></Layout>
+    <Layout>
+      <div className='md:w-4/5 xl:w-3/5 mx-auto mb-32'>
+      {url ? (
+          <>
+            <p className='text-center text-2xl'>
+              <span className='font-bold text-red-700 text-4xl uppercase'>Tu url es: </span>{`http://localhost:3000/enlaces/${url}`}
+            </p>
+            <button
+              type="submit"
+              className="bg-red-500 hover:bg-gray-900 mt-10 w-full p-2 text-white uppercase font-bold"
+              value="Crear Cuenta"
+              onClick={() => navigator.clipboard.writeText(`http://localhost:3000/enlaces/${url}`)}
+            >Copiar Enlace</button>
+          </>
+        ): (
+          <>
+          {mensaje_archivo && <Alerta />}
+            <div className='lg:flex md:shadow-lg p-5 bg-hite rounded-lg py-10'>
+              <DropZone />
+              <div className='md:flex-1 mb-3 mx-2 mt-16 lg:mt-0'>
+                <h2 className='text-4xl font-sans font-bold text-gray-800 my-4'>Compartir archivos</h2>
+                <p className='text-lg leading-loose'>
+                  <span className='text-red-500 font-bold'>React Node Send</span> te permite compartir archivos con cifrado de extremo
+                </p>
+                <Link 
+                  href="crearcuenta"
+                  className='text-red-500 font-bold text-lg hover:text-red-700'
+                >
+                  Crea una cuenta para mas beneficios
+                </Link>
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+    </Layout>
   )
 }

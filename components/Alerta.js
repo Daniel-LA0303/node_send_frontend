@@ -1,6 +1,6 @@
 import React, {useContext} from 'react'
 import authContext from '../context/auth/authContext'
-// import app
+import appContext from '../context/app/appContext';
 
 const Alerta = () => {
     
@@ -8,6 +8,10 @@ const Alerta = () => {
     //extraer mensaje de error para users
     const AuthContext = useContext(authContext);
     const {mensaje} = AuthContext
+
+    //extraer mensaje de error para users
+    const AppContext = useContext(appContext);
+    const {mensaje_archivo} = AppContext
 
 
 return (
